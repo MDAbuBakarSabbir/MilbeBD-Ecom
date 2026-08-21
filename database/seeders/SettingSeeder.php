@@ -34,7 +34,7 @@ class SettingSeeder extends Seeder
         Setting::updateOrCreate(['name' => 'whatsapp'], ['value' => 'whatsapp']);
         Setting::updateOrCreate(['name' => 'twitter'], ['value' => 'twitter']);
         Setting::updateOrCreate(['name' => 'skype'], ['value' => 'skype']);
-        Setting::updateOrCreate(['footer_description' => 'favicon'], ['value' => 'Hello World']);
+        Setting::updateOrCreate(['name' => 'footer_description'], ['value' => 'Hello World']);
         Setting::updateOrCreate(['name' => 'fb_pixel'], ['value' => 'Hello World']);
 
         Setting::updateOrCreate(['name' => 'fci'], ['value' => 'demo']);

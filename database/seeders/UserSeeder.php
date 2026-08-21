@@ -17,53 +17,58 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $admin = Role::updateOrCreate(['name' => 'Admin', 'slug' => 'admin']);
-        User::updateOrCreate([
-            'role_id' => $admin->id,
-            'name' => 'Admin',
-            'username' => 'admin',
-            'email' => 'admin@gmail.com',
-            'phone' => '01749699156',
-            'is_approved' => true,
-            'joining_date' => date('Y-m-d'),
-            'joining_month' => date('F'),
-            'joining_year' => date('Y'),
-            'email_verified_at' => now(),
-            'password' => Hash::make('12345678'),
-            'remember_token' => Str::random(10)
-        ]);
+        $admin = Role::updateOrCreate(['slug' => 'admin'], ['name' => 'Admin']);
+        User::updateOrCreate(
+            ['username' => 'admin'],
+            [
+                'role_id' => $admin->id,
+                'name' => 'Admin',
+                'email' => 'admin@admin.com',
+                'phone' => '01614694415',
+                'is_approved' => true,
+                'joining_date' => date('Y-m-d'),
+                'joining_month' => date('F'),
+                'joining_year' => date('Y'),
+                'email_verified_at' => now(),
+                'password' => Hash::make('12345678'),
+                'remember_token' => Str::random(10)
+            ]
+        );
         
-        $vendor = Role::updateOrCreate(['name' => 'Vendor', 'slug' => 'vendor']);
-        User::updateOrCreate([
-            'role_id' => $vendor->id,
-            'name' => 'Vendor',
-            'username' => 'vendor',
-            'email' => 'vendor@gmail.com',
-            'phone' => '01303851066',
-            'is_approved' => true,
-            'joining_date' => date('Y-m-d'),
-            'joining_month' => date('F'),
-            'joining_year' => date('Y'),
-            'email_verified_at' => now(),
-            'password' => Hash::make('12345678'),
-            'remember_token' => Str::random(10)
-        ]);
+        $vendor = Role::updateOrCreate(['slug' => 'vendor'], ['name' => 'Vendor']);
+        User::updateOrCreate(
+            ['username' => 'vendor'],
+            [
+                'role_id' => $vendor->id,
+                'name' => 'Vendor',
+                'email' => 'vendor@gmail.com',
+                'phone' => '01303851066',
+                'is_approved' => true,
+                'joining_date' => date('Y-m-d'),
+                'joining_month' => date('F'),
+                'joining_year' => date('Y'),
+                'email_verified_at' => now(),
+                'password' => Hash::make('12345678'),
+                'remember_token' => Str::random(10)
+            ]
+        );
 
-        $customer = Role::updateOrCreate(['name' => 'Customer', 'slug' => 'customer']);
-        User::updateOrCreate([
-            'role_id' => $customer->id,
-            'name' => 'Customer',
-            'referer_id' => rand(pow(10, 5-1), pow(10, 5)-1),
-            'username' => 'customer',
-            'email' => 'customer@gmail.com',
-            'phone' => '01303851066',
-            'is_approved' => true,
-            'joining_date' => date('Y-m-d'),
-            'joining_month' => date('F'),
-            'joining_year' => date('Y'),
-            'email_verified_at' => now(),
-            'password' => Hash::make('12345678'),
-            'remember_token' => Str::random(10)
-        ]);
+        $customer = Role::updateOrCreate(['slug' => 'customer'], ['name' => 'Customer']);
+        User::updateOrCreate(
+            ['username' => 'customer'],
+            [
+                'role_id' => $customer->id,
+                'name' => 'Customer',
+                'email' => 'customer@gmail.com',
+                'phone' => '01303851066',
+                'is_approved' => true,
+                'joining_date' => date('Y-m-d'),
+                'joining_month' => date('F'),
+                'joining_year' => date('Y'),
+                'email_verified_at' => now(),
+                'password' => Hash::make('12345678'),
+                'remember_token' => Str::random(10)
+            ]
+        );
     }
 }
