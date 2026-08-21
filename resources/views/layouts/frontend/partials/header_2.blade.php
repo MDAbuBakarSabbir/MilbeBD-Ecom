@@ -18,21 +18,12 @@
                         <li><a href="{{route('dashboard')}}" class="{{Request::is('dashboard') ? 'active':''}}">My
                                 Account</a></li>
                         @endif
-                        @auth
-                        @if(auth()->user()->role_id == 2)
-                        <span
-                            style="margin:-2px 5px;height: 15px;display: inline-block;width: 1px;background: black;"></span>
-                        <li><a class="vendor-button" href="{{routeHelper('dashboard')}}"> Dashboard</a></li>
-                        @endif
-                        @endauth
                         @if(auth()->user())
                         @else
                         <li><a href="{{route('login')}}">Sign In</a></li>
                         <span
                             style="margin:-2px 5px;height: 15px;display: inline-block;width: 1px;background: black;"></span>
                         <li><a href="{{route('register')}}">Sign Up</a></li>
-                        <li><a style="border: 1px solid black;padding: 3px 10px;border-radius: 10px;"
-                                href="{{route('vendorJoin')}}">Seller</a></li>
                         @endif
                         <li>
                             <div id="google_translate_element" onclick="foo();"> </div>

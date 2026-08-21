@@ -32,7 +32,56 @@
                     </a>
                 </li>
 
-
+                @if(auth()->user()->desig ==1 || auth()->user()->desig ==2|| auth()->user()->desig ==4)
+                <li class="nav-item {{Request::is('admin/order*') ? 'menu-is-opening menu-open':''}}">
+                    <a href="javascript:void(0)" class="nav-link">
+                        <i class="nav-icon fab fa-jedi-order"></i>
+                        <p>
+                            Orders
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{routeHelper('order')}}"
+                                class="nav-link {{Request::is('admin/order') ? 'active':''}}">
+                                <i class="fas fa-bars nav-icon"></i>
+                                <p>All</p>
+                            </a>
+                            <a href="{{routeHelper('order/pending')}}"
+                                class="nav-link {{Request::is('admin/order/pending') ? 'active':''}}">
+                                <i class="fas fa-hourglass-start nav-icon"></i>
+                                <p>New</p>
+                            </a>
+                            <a href="{{routeHelper('order/pre')}}"
+                                class="nav-link {{Request::is('admin/order/pre') ? 'active':''}}">
+                                <i class="fas fa-cart-arrow-down nav-icon"></i>
+                                <p>pre order</p>
+                            </a>
+                            <a href="{{routeHelper('order/processing')}}"
+                                class="nav-link {{Request::is('admin/order/processing') ? 'active':''}}">
+                                <i class="fas fa-running nav-icon"></i>
+                                <p>Order Success</p>
+                            </a>
+                            <a href="{{routeHelper('order/cancel')}}"
+                                class="nav-link {{Request::is('admin/order/cancel') ? 'active':''}}">
+                                <i class="fas fa-window-close nav-icon"></i>
+                                <p>Cancel</p>
+                            </a>
+                            <a href="{{routeHelper('order/delivered')}}"
+                                class="nav-link {{Request::is('admin/order/delivered') ? 'active':''}}">
+                                <i class="fas fa-thumbs-up nav-icon"></i>
+                                <p>Delivered</p>
+                            </a>
+                            <a href="{{routeHelper('order/partials')}}"
+                                class="nav-link {{Request::is('admin/order/partials') ? 'active':''}}">
+                                <i class="fas fa-thumbs-up nav-icon"></i>
+                                <p>Partials</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
                 @if(auth()->user()->desig ==1)
                 <li class="nav-item {{Request::is('admin/staff*') ? 'menu-is-opening menu-open':''}}">
                     <a href="javascript:void(0)" class="nav-link">
@@ -362,7 +411,6 @@
                     </ul>
                 </li>
 
-
                 @endif
                 @if(auth()->user()->desig ==1)
                 <li class="nav-item {{Request::is('admin/tag*') ? 'menu-is-opening menu-open':''}}">
@@ -508,56 +556,7 @@
                     </ul>
                 </li>
                 @endif
-                @if(auth()->user()->desig ==1 || auth()->user()->desig ==2|| auth()->user()->desig ==4)
-                <li class="nav-item {{Request::is('admin/order*') ? 'menu-is-opening menu-open':''}}">
-                    <a href="javascript:void(0)" class="nav-link">
-                        <i class="nav-icon fab fa-jedi-order"></i>
-                        <p>
-                            Orders
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{routeHelper('order')}}"
-                                class="nav-link {{Request::is('admin/order') ? 'active':''}}">
-                                <i class="fas fa-bars nav-icon"></i>
-                                <p>All</p>
-                            </a>
-                            <a href="{{routeHelper('order/pending')}}"
-                                class="nav-link {{Request::is('admin/order/pending') ? 'active':''}}">
-                                <i class="fas fa-hourglass-start nav-icon"></i>
-                                <p>New</p>
-                            </a>
-                            <a href="{{routeHelper('order/pre')}}"
-                                class="nav-link {{Request::is('admin/order/pre') ? 'active':''}}">
-                                <i class="fas fa-cart-arrow-down nav-icon"></i>
-                                <p>pre order</p>
-                            </a>
-                            <a href="{{routeHelper('order/processing')}}"
-                                class="nav-link {{Request::is('admin/order/processing') ? 'active':''}}">
-                                <i class="fas fa-running nav-icon"></i>
-                                <p>Order Success</p>
-                            </a>
-                            <a href="{{routeHelper('order/cancel')}}"
-                                class="nav-link {{Request::is('admin/order/cancel') ? 'active':''}}">
-                                <i class="fas fa-window-close nav-icon"></i>
-                                <p>Cancel</p>
-                            </a>
-                            <a href="{{routeHelper('order/delivered')}}"
-                                class="nav-link {{Request::is('admin/order/delivered') ? 'active':''}}">
-                                <i class="fas fa-thumbs-up nav-icon"></i>
-                                <p>Delivered</p>
-                            </a>
-                            <a href="{{routeHelper('order/partials')}}"
-                                class="nav-link {{Request::is('admin/order/partials') ? 'active':''}}">
-                                <i class="fas fa-thumbs-up nav-icon"></i>
-                                <p>Partials</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                @endif
+                
                 @if(auth()->user()->desig ==1 || auth()->user()->desig ==2)
                 <li class="nav-item {{Request::is('admin/customer*') ? 'menu-is-opening menu-open':''}}">
                     <a href="javascript:void(0)" class="nav-link">
@@ -593,40 +592,6 @@
                     </ul>
                 </li>
                 @endif
-
-
-                <li class="nav-item {{Request::is('admin/vendor*') ? 'menu-is-opening menu-open':''}}">
-                    <a href="javascript:void(0)" class="nav-link">
-                        <i class="nav-icon fas fa-users-cog"></i>
-                        <p>
-                            Vendor
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{routeHelper('vendor/create')}}"
-                                class="nav-link {{Request::is('admin/vendor/create') ? 'active':''}}">
-                                <i class="fas fa-plus-circle nav-icon"></i>
-                                <p>Add</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{routeHelper('vendor')}}"
-                                class="nav-link {{Request::is('admin/vendor') ? 'active':''}}">
-                                <i class="fas fa-bars nav-icon"></i>
-                                <p>List</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('admin.vendor.withdraw')}}"
-                                class="nav-link {{Request::is('admin/vendor/withdraw') ? 'active':''}}">
-                                <i class="fas fa-bars nav-icon"></i>
-                                <p>Withdraw Request</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
 
                 @if(auth()->user()->desig ==1)
                 <li class="nav-item {{Request::is('admin/connection*') ? 'menu-is-opening menu-open':''}}">
@@ -742,7 +707,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li
+                        {{-- <li
                             class="nav-item {{Request::is('admin/setting/layout') ? 'menu-is-opening menu-open':'menu-is-opening menu-open'}}">
                             <a href="{{route('admin.setting.layout')}}" class="nav-link">
                                 <i class="nav-icon fas fa-user-cog"></i>
@@ -750,7 +715,7 @@
                                     Layout
                                 </p>
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item {{Request::is('admin/setting/getway') ? 'menu-is-opening menu-open':''}}">
                             <a href="{{route('admin.setting.getway')}}" class="nav-link">
                                 <i class="nav-icon fas fa-user-cog"></i>

@@ -38,8 +38,6 @@ use App\Http\Controllers\blogControler as ablogController;
 Route::get('/cancel', [OrderController::class, 'fail'])->name('uddoktapay.cancel');
 Route::get('success2', [OrderController::class, 'success2'])->name('uddoktapay.success');
 Auth::routes();
-Route::get('login/vendor', [HomeController::class, 'vendorLogin'])->name('login.v2');
-Route::get('/seller', [AccountController::class, 'vendorJoin'])->name('vendorJoin');
 // Route::Post('register', [AccountController::class, 'register'])->name('register');
 Route::Post('register2', [AccountController::class, 'register2'])->name('register2');
 Route::get('/', HomeController::class)->name('home');
@@ -54,8 +52,6 @@ Route::get('/recover-ac/mobile', [AccountController::class, 'pasmRecover'])->nam
 Route::Post('password/reset', [AccountController::class, 'pasm'])->name('password.send');
 Route::Post('zt_admin.zishan/login/confirm', [LoginController::class, 'superLoginconfirm'])->name('super.login.confirm');
 
-Route::get('vendors', [VendorController::class, 'showAllVendors'])->name('vendors');
-Route::get('vendor/{slug}', [VendorController::class, 'index'])->name('vendor');
 Route::get('brand/{slug}', [ProductController::class, 'showProductByBrand'])->name('brand.product');
 Route::get('author/product/{slug}', [ProductController::class, 'showProductByAuthor'])->name('author.product');
 Route::get('brands/list', [ProductController::class, 'allBrand'])->name('brand.list');
@@ -88,9 +84,6 @@ Route::middleware(['auth'])->group(function () {
 
 Route::Post('/get/color/price', [ProductController::class, 'getAttrPrice']);
 Route::Post('/get/attr/price', [ProductController::class, 'getAttrPrice']);
-
-
-Route::get('vendor/search/product', [VendorController::class, 'productSearch'])->name('search.product.vendor');
 
 Route::get('cart', [CartController::class, 'cart'])->name('cart');
 Route::get('categories', [HomeController::class, 'allCat'])->name('category');
@@ -187,12 +180,6 @@ Route::middleware(['account', 'auth'])->group(function () {
 
 Route::get('/classic/product/{slug}', [adsController::class, 'show'])->name('clasified.show');
 Route::get('/{slug}', [pageController::class, 'pageshow'])->name('page');
-Route::middleware(['auth', 'customer'])->group(function () {
-    Route::get('setup/vendor', [VendorController::class, 'showSetupVendorFrom'])->name('setup.vendor.form');
-    Route::post('setup/vendor', [VendorController::class, 'setupVendor'])->name('setup.vendor');
-});
-
-
 
 Route::middleware(['auth'])->group(function () {
     Route::post('product/comment/{slug}', [ProductController::class, 'comment'])->name('comment');

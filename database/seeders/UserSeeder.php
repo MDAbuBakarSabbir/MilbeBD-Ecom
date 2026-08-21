@@ -35,24 +35,6 @@ class UserSeeder extends Seeder
             ]
         );
         
-        $vendor = Role::updateOrCreate(['slug' => 'vendor'], ['name' => 'Vendor']);
-        User::updateOrCreate(
-            ['username' => 'vendor'],
-            [
-                'role_id' => $vendor->id,
-                'name' => 'Vendor',
-                'email' => 'vendor@gmail.com',
-                'phone' => '01303851066',
-                'is_approved' => true,
-                'joining_date' => date('Y-m-d'),
-                'joining_month' => date('F'),
-                'joining_year' => date('Y'),
-                'email_verified_at' => now(),
-                'password' => Hash::make('12345678'),
-                'remember_token' => Str::random(10)
-            ]
-        );
-
         $customer = Role::updateOrCreate(['slug' => 'customer'], ['name' => 'Customer']);
         User::updateOrCreate(
             ['username' => 'customer'],

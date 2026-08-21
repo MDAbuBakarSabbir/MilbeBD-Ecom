@@ -29,18 +29,12 @@ class DashboardController extends Controller
         $cancel_orders     = DB::table('orders')->where('status', 2)->count();
         $delivered_orders  = DB::table('orders')->where('status', 3)->count();
 
-        // Financial metrics
-        $vendor_amount     = (float) DB::table('vendor_accounts')->where('vendor_id', '!=', 1)->sum('amount');
+        // Direct Store Financial metrics
         $admin_amount      = (float) DB::table('vendor_accounts')->where('vendor_id', 1)->sum('amount');
         $pending_amount    = (float) DB::table('vendor_accounts')->where('vendor_id', 1)->sum('pending_amount');
-        $vendor_pamount    = (float) DB::table('vendor_accounts')->where('vendor_id', '!=', 1)->sum('pending_amount');
-        $commission        = (float) DB::table('commissions')->where('status', true)->sum('amount');
-
-        // Total Gross Revenue
         $total_revenue     = (float) DB::table('orders')->whereIn('status', [1, 3])->sum('total');
 
-        // User metrics
-        $vendors           = DB::table('users')->where('role_id', 2)->count();
+        // Customer metrics
         $customers         = DB::table('users')->where('role_id', 3)->count();
 
         // Recent Orders
@@ -65,7 +59,6 @@ class DashboardController extends Controller
         return view('admin.e-commerce.dashboard', compact(
             'products',
             'pending_amount',
-            'vendor_pamount',
             'quantity',
             'low_products',
             'orders',
@@ -73,12 +66,9 @@ class DashboardController extends Controller
             'processing_orders',
             'cancel_orders',
             'delivered_orders',
-            'vendor_amount',
             'admin_amount',
             'total_revenue',
-            'vendors',
             'customers',
-            'commission',
             'recent_orders',
             'low_stock_list',
             'monthly_labels',
@@ -86,4 +76,3 @@ class DashboardController extends Controller
         ));
     }
 }
-

@@ -507,8 +507,6 @@ if(empty($order)){
             e.preventDefault();
             $('#coupon').removeClass('is-invalid');
             let stotal = "{!! $stotal !!}";
-            let code = $('input#coupon').val();
-            let seller_count = $('#seller_count').val();
             let shipping_charge = 0;
             if ($("select[name='city']").val() == 'Dhaka') {
                 let charge = "{!! setting('shipping_charge') !!}";
@@ -517,7 +515,6 @@ if(empty($order)){
                 let charge = "{!! setting('shipping_charge_out_of_range') !!}";
                 shipping_charge += parseInt(charge);
             }
-            shipping_charge = parseInt(shipping_charge) * parseInt(seller_count);
         
             if (code != '') {
                 $.ajax({
@@ -622,7 +619,6 @@ if(empty($order)){
         });
         function div() {
             let shipping_charge = 0;
-            let seller_count = $('#seller_count').val();
             if ($("select[name='city']").val() == 'Dhaka') {
                 let charge = "{!! setting('shipping_charge') !!}";
                 shipping_charge += parseInt(charge);
@@ -630,8 +626,6 @@ if(empty($order)){
                 let charge = "{!! setting('shipping_charge_out_of_range') !!}";
                 shipping_charge += parseInt(charge);
             }
-
-            shipping_charge = parseInt(shipping_charge) * parseInt(seller_count);
 
             let subtotal = $('span#sub-total').text();
             let coupon = $('span#coupon').text();

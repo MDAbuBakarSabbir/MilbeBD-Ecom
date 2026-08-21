@@ -32,17 +32,5 @@
                                 @csrf
                             </form>
                         </li>
-                    @auth
-                        @if(auth()->user()->role_id == 3)
-                            <li><a class="vendor-button" href="{{route('setup.vendor.form')}}">Become a Vendor</a></li>
-                        @endif
-                    @endauth
-                    
-                    @auth
-                        @if(auth()->user()->role_id == 2)
-                            <li><a class="vendor-button" href="{{routeHelper('dashboard')}}">Go TO Vendor Dashboard</a></li>
-                        @endif
-                    @endauth
-                    
                 </ul>
             </div>

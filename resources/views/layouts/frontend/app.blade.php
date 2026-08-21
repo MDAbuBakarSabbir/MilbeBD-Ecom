@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"><head>@include('layouts.frontend.partials.meta')@include('layouts.global')@include('layouts.frontend.partials.style')@php echo setting('fb_pixel');@endphp{{-- <!-- Custom Head Code --> --}}@php echo setting('header_code');@endphp
 </head>
-<body{{--  class="" --}}>@php echo setting('body_code');@endphp
+<body {{--  class="" --}}>@php echo setting('body_code');@endphp
 {{-- Facebook SDK --}}
 @if (env('FACEBOOK_SKD_ON') == 1)
     <div id="fb-root"></div>

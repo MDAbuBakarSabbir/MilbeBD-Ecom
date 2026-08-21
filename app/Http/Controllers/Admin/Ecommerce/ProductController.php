@@ -343,7 +343,7 @@ public function upload($book){
        }
         }
         $product = Product::create([
-            'user_id'           => $request->vendor ?? 1,
+            'user_id'           => auth()->id() ?? 1,
             'brand_id'          => $request->brand,
             'slug'              => rand(pow(10, 5-1), pow(10, 15)-1),
             'title'             => $request->title,

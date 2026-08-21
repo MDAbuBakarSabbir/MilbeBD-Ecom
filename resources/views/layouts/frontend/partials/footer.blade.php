@@ -192,8 +192,6 @@
                                         href="{{route('login')}}"> Login</a></li>
                                 <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-76"><a
                                         href="{{route('register')}}"> Registration</a></li>
-                                <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-76"><a
-                                        href="{{route('vendorJoin')}}"> Vendor Register</a></li>
                                 @endauth
 
                             </ul>

@@ -49,7 +49,6 @@
             <!-- /.content-wrapper -->
 
             <!-- Footer -->
-                <x-footer-component></x-footer-component>
             <!-- /.footer -->
 
             <!-- Control Sidebar -->

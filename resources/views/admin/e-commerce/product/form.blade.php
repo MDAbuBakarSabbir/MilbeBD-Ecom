@@ -152,16 +152,6 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="full_description">Select Vendor:</label>
-                        <select class="form-control" name="vendor">
-                            <option value="">Select Vendor Optional</option>
-                            @foreach(App\Models\ShopInfo::get(['name','user_id']) as $vend)
-                            <option @isset($product->user_id)@if($product->user_id==$vend->user_id)selected @endif
-                                @endisset value="{{$vend->user_id}}">{{$vend->name}}</option>
-                            @endforeach
-                        </select>
-                    </div>
 
                     <div class="form-group">
                         <label for="full_description">Full Description <span class="text-danger">(*)</span>:</label>
@@ -417,9 +407,9 @@
                         <div class="form-row col-md-12 spec collapse" id="BookOpen">
                             
                            <div class="form-group col-md-6">
-                                 <label for="full_description">Select Author:</label>
-                                 <select class="form-control" name="author_id">
-                                     <option value="">Select Vendor  </option>
+                                 <label for="author_id">Select Author:</label>
+                                  <select class="form-control" name="author_id">
+                                      <option value="">Select Author</option>
                                      @foreach(App\Models\Author::get(['name','id']) as $author)
                                       <option @isset($product->author_id)@if($product->author_id==$author->id)selected @endif @endisset value="{{$author->id}}">{{$author->name}}</option>
                                       @endforeach

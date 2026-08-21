@@ -89,14 +89,6 @@
                         @php
                             echo setting('STYLE_3_TOP_MENU');
                         @endphp
-                        @if (!auth()->check() || (auth()->user()->role_id != 1 && auth()->user()->role_id != 2))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('vendorJoin') }}">Become a seller</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{route('login')}}">Seller Login</a>
-                        </li>
-                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('contact')}}">Help & Support</a>
                         </li>

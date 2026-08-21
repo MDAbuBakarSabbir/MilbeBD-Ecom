@@ -286,10 +286,10 @@
             <a href="{{ route('admin.order.index') }}" class="btn btn-outline-primary quick-btn">
                 <i class="fas fa-shopping-bag"></i> Orders
             </a>
-            <a href="{{ route('admin.vendor.index') }}" class="btn btn-outline-info quick-btn">
-                <i class="fas fa-store"></i> Vendors
+            <a href="{{ route('admin.customer.index') }}" class="btn btn-outline-info quick-btn">
+                <i class="fas fa-users"></i> Customers
             </a>
-            <a href="{{ route('admin.setting.index') }}" class="btn btn-outline-secondary quick-btn">
+            <a href="{{ route('admin.setting') }}" class="btn btn-outline-secondary quick-btn">
                 <i class="fas fa-cog"></i> Settings
             </a>
         </div>
@@ -351,40 +351,40 @@
             </div>
         </div>
 
-        <!-- Total Customers & Vendors -->
+        <!-- Total Customers -->
         <div class="col-xl-3 col-md-6 col-12">
             <div class="stat-card">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="stat-label">Registered Users</p>
-                        <h3 class="stat-number">{{ number_format($customers + $vendors) }}</h3>
+                        <p class="stat-label">Registered Customers</p>
+                        <h3 class="stat-number">{{ number_format($customers) }}</h3>
                     </div>
                     <div class="stat-icon-box bg-grad-purple">
                         <i class="fas fa-users"></i>
                     </div>
                 </div>
                 <div class="stat-footer">
-                    <span><i class="fas fa-user text-primary"></i> {{ $customers }} Customers | {{ $vendors }} Vendors</span>
-                    <a href="{{ route('admin.customer.index') }}">Users <i class="fas fa-arrow-right"></i></a>
+                    <span><i class="fas fa-user-check text-primary"></i> Active Buyers</span>
+                    <a href="{{ route('admin.customer.index') }}">Customers <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
 
-        <!-- Total Commission Earned -->
+        <!-- Total Store Revenue -->
         <div class="col-xl-3 col-md-6 col-12">
             <div class="stat-card">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <p class="stat-label">Platform Commission</p>
-                        <h3 class="stat-number">৳ {{ number_format($commission, 2) }}</h3>
+                        <p class="stat-label">Total Revenue</p>
+                        <h3 class="stat-number">৳ {{ number_format($total_revenue, 2) }}</h3>
                     </div>
                     <div class="stat-icon-box bg-grad-success">
-                        <i class="fas fa-hand-holding-usd"></i>
+                        <i class="fas fa-wallet"></i>
                     </div>
                 </div>
                 <div class="stat-footer">
-                    <span><i class="fas fa-store text-success"></i> Store Earnings</span>
-                    <a href="{{ route('admin.comission') }}">Commissions <i class="fas fa-arrow-right"></i></a>
+                    <span><i class="fas fa-check-circle text-success"></i> Cleared: ৳ {{ number_format($admin_amount, 2) }}</span>
+                    <a href="{{ route('admin.order.delivered') }}">Sales <i class="fas fa-arrow-right"></i></a>
                 </div>
             </div>
         </div>
@@ -450,53 +450,6 @@
                     </div>
                 </div>
             </a>
-        </div>
-    </div>
-
-    <!-- Financial Breakdown Cards -->
-    <div class="row">
-        <!-- Self / Admin Revenue -->
-        <div class="col-xl-6 col-12">
-            <div class="dashboard-card">
-                <div class="dashboard-card-header">
-                    <h3><i class="fas fa-wallet text-success"></i> Direct Store Revenue</h3>
-                    <span class="badge badge-soft-success">Admin Account</span>
-                </div>
-                <div class="dashboard-card-body">
-                    <div class="row text-center">
-                        <div class="col-6 border-right">
-                            <p class="text-muted mb-1" style="font-size: 13px;">Cleared Amount</p>
-                            <h4 class="font-weight-bold text-success mb-0">৳ {{ number_format($admin_amount, 2) }}</h4>
-                        </div>
-                        <div class="col-6">
-                            <p class="text-muted mb-1" style="font-size: 13px;">Pending Clearance</p>
-                            <h4 class="font-weight-bold text-warning mb-0">৳ {{ number_format($pending_amount, 2) }}</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Vendor Revenue -->
-        <div class="col-xl-6 col-12">
-            <div class="dashboard-card">
-                <div class="dashboard-card-header">
-                    <h3><i class="fas fa-store-alt text-primary"></i> Multi-Vendor Settlement</h3>
-                    <a href="{{ route('admin.vendor.withdraw') }}" class="btn btn-sm btn-outline-primary" style="border-radius: 6px;">Withdrawals</a>
-                </div>
-                <div class="dashboard-card-body">
-                    <div class="row text-center">
-                        <div class="col-6 border-right">
-                            <p class="text-muted mb-1" style="font-size: 13px;">Vendor Balance</p>
-                            <h4 class="font-weight-bold text-primary mb-0">৳ {{ number_format($vendor_amount, 2) }}</h4>
-                        </div>
-                        <div class="col-6">
-                            <p class="text-muted mb-1" style="font-size: 13px;">Vendor Pending</p>
-                            <h4 class="font-weight-bold text-secondary mb-0">৳ {{ number_format($vendor_pamount, 2) }}</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 

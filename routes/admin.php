@@ -88,17 +88,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::resource('author', AuthController::class);
     Route::resource('customer', CustomerController::class);
-    Route::resource('vendor', VendorController::class);
-    Route::get('vendor/change-pass/{id}', [VendorController::class, 'change_passIndex'])->name('vendor.change_pass_index');
-    Route::put('vendor/change-pass/{id}', [VendorController::class, 'change_pass'])->name('vendor.change_pass');
-    // Route::post('author/update/{vid}',[AuthController::class,'update'])->name('author.update');
-    Route::get('vendor/product/{vid}', [VendorController::class, 'Vproduct'])->name('vendor.product');
-    Route::get('vendor_status/{id}', [VendorController::class, 'vendor_status'])->name('vendor_status');
-    Route::get('vendor/withdraw/list', [WithdrawController::class, 'allwithlist'])->name('vendor.withdraw');
-
-    Route::get('vendor/withdraw/{id}', [WithdrawController::class, 'aprove'])->name('vendor.withdraw.aprove');
-    Route::get('vendor/withdrawc/{id}', [WithdrawController::class, 'cancel'])->name('vendor.withdraw.cancel');
-    Route::get('vendor/withdrawd/{id}', [WithdrawController::class, 'delete'])->name('vendor.withdraw.delete');
     Route::get('pages', [pageController::class, 'index'])->name('pages');
     Route::get('page/create', [pageController::class, 'form'])->name('page.create');
     Route::get('page/delete/{did}', [pageController::class, 'delete'])->name('page.delete');
@@ -143,6 +132,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('update/product/download', [ProductController::class, 'updateDownloadFile']);
     Route::get('product/type', [ProductController::class, 'type'])->name('product.type');
     Route::get('product/inhouse/create', [ProductController::class, 'inhouseCreate'])->name('product.inhouse.create');
+    Route::get('low/product', [ProductController::class, 'lowProduct'])->name('low.product');
 
     Route::get('admin/product/color/{cc}/{pp}', [ProductController::class, 'nColorDelete'])->name('color.delete.n2');
     Route::get('admin/product/attr/{cc}', [ProductController::class, 'nattrDelete'])->name('attr.delete.n2');
