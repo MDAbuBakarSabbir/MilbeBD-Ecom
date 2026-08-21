@@ -200,36 +200,11 @@
                 <a href="{{routeHelper('vendor')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
         </div>
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-warning">
-                <div class="inner">
-                    <h3>{{$customers}}</h3>
-                    <p>Total Customer</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <a href="{{routeHelper('customer')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>{{$commission}}</h3>
-                    <p>Total Commission</p>
-                </div>
-                <div class="icon">
-                    <i class="fas fa-money-bill"></i>
-                </div>
-                <a href="{{route('admin.comission')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-            </div>
-        </div>
     </div>
     
   
 </section>
+
 <!-- /.content -->
 
 @endsection

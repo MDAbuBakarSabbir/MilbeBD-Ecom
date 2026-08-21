@@ -4,7 +4,6 @@
 /storage/*.key
 /vendor/ourcodeworld/name-that-color/.git
 .env
-.env.backup
 .phpunit.result.cache
 docker-compose.override.yml
 Homestead.json
@@ -44,3 +43,6 @@ public/sitemap.xml
 **/*.ai
 **/*.psd
 **/*.iso
+desktop.ini
+*.ini
+Thumbs.db

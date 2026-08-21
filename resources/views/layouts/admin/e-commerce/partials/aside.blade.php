@@ -5,7 +5,7 @@
         font-size: 15px;
     }
 </style>
-<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background:#096629">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background:#1f2d3d;">
     <!-- Brand Logo -->
     <a href="{{route('admin.dashboard')}}" class="brand-link">
         <img src="/uploads/setting/{{setting('logo')}}" alt="Logo" class="brand-image"
@@ -13,7 +13,7 @@
     </a>
     <style>
         .nav-treeview {
-            background-color: #494e54 !important;
+            background-color: #3f4f62 !important;
             border-radius: 5px !important;
 
         }
@@ -21,23 +21,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
 
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="align-items: center;">
-            <div class="image">
-                <a href="{{routeHelper('dashboard')}}" class="d-block">
-                    {{-- <img src="{{Auth::user()->avatar != 'default.png' ? '/uploads/admin/'.Auth::user()->avatar:'/default/user.jpg'}}" --}}
-                    <img src="/uploads/setting/{{setting('logo')}}"
-                        class="img-circle elevation-2" alt="User Image" style="width:50px;height:50px">
 
-                        
-                </a>
-            </div>
-            <div class="info">
-                <a href="{{routeHelper('dashboard')}}" class="d-block">{{Auth::user()->name}}</a>
-            </div>
-        </div>
-
-        <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
@@ -483,19 +467,7 @@
                                 <p>All Product</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{route('admin.product.inhouse.index')}}"
-                                class="nav-link {{Request::is('admin/inhouse') ? 'active':''}}">
-                                <i class="fas fa-bars nav-icon"></i>
-                                <p>Inhouse Product</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('admin.low.product')}}"
-                                class="nav-link {{Request::is('admin/inhouse') ? 'active':''}}">
-                                <i class="fas fa-bars nav-icon"></i>
-                                <p>Low Product</p>
-                            </a>
+
                         </li>
 
                         <li class="nav-item">
@@ -821,32 +793,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item {{Request::is('admin/profile*') ? 'menu-is-opening menu-open':''}}">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user-circle"></i>
-                                <p>
-                                    Profile
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{routeHelper('profile')}}"
-                                        class="nav-link {{Request::is('admin/profile/show') ? 'active':''}}">
-                                        <i class="fas fa-user nav-icon"></i>
-                                        <p>My Profile</p>
-                                    </a>
-                                </li>
 
-                                <li class="nav-item">
-                                    <a href="{{routeHelper('profile/change-password')}}"
-                                        class="nav-link {{Request::is('admin/profile/change-password') ? 'active':''}}">
-                                        <i class="fas fa-key nav-icon"></i>
-                                        <p>Change Password</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
                         <li
                             class="nav-item {{Request::is('admin/setting/color') ? 'menu-is-opening menu-open':'menu-is-opening menu-open'}}">
                             <a href="{{route('admin.setting.color')}}" class="nav-link">
@@ -905,27 +852,32 @@
                     </ul>
                 </li>
                 @endif
-                <li class="nav-item">
-                    <a href="{{ route('admin.updateIndex') }}" class="nav-link"">
-                        <i class="nav-icon fas fa-cogs"></i>
-                        <p>System Update</p>
+
+
+            </ul>
+
+				
+				
+				
+							                <li class="nav-item">
+                    <a href="{{routeHelper('profile/change-password')}}" class="nav-link {{Request::is('admin/profile/change-password') ? 'active':''}}">
+                        <i class="fas fa-key nav-icon"></i>
+                        <p>Change Your Password</p>
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
                 </li>
-                <li class="nav-item">
+				
+							                <li class="nav-item">
                     <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">
                         <i class="nav-icon fas fa-power-off"></i>
                         <p>Logout</p>
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+					                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                         @csrf
                     </form>
                 </li>
-
-            </ul>
+				
+				
         </nav>
         <!-- /.sidebar-menu -->
     </div>

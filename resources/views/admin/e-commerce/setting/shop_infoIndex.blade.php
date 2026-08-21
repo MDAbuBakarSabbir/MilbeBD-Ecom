@@ -62,7 +62,7 @@
                                         <li class="col-12 col-md-12">
                                             <label for="footer_description" class="text-capitalize">Footer Descripttion <span class="text-red">(*)</span></label>
                                             <textarea name="footer_description" id="footer_description" rows="4"
-                                                class="form-control" required>{{setting('footer_description') ?? 'Footer Description, Example: This is Lems by Finvasoft'}}</textarea>
+                                                class="form-control" required>{{setting('footer_description') ?? 'Footer Description, Example: This is Grocery Website By Elite Design'}}</textarea>
                                         </li>
                                     </ul>
 
@@ -70,7 +70,7 @@
                                     <ul class="form-row">
                                         <li class="col-12 col-md-6 form-group">
                                             <label for="email" class="text-capitalize">E-mail <span class="text-red">(*)</span></label>
-                                            <input class="form-control" type="email" name="email" id="email" placeholder="info@finvasoft.com" value="{{ setting('email') ?? 'hello@asifulmamun.info.bd' }}" required>
+                                            <input class="form-control" type="email" name="email" id="email" placeholder="info@elitedesign.com.bd" value="{{ setting('email') ?? 'hello@asifulmamun.info.bd' }}" required>
                                         </li>
                                         <li class="col-12 col-md-6 form-group">
                                             <label for="whatsapp" class="text-capitalize">WhatsApp</label>

@@ -134,7 +134,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('product/disable', [ProductController::class, 'disableProduct'])->name('product.disable');
     Route::get('product/approve/{id}', [ProductController::class, 'approveProduct'])->name('product.approved');
     Route::get('product/unaproved', [ProductController::class, 'unaprovedProduct'])->name('product.unaproved');
-    Route::get('low/product', [ProductController::class, 'lowProduct'])->name('low.product');
+
     Route::get('product/reached', [ProductController::class, 'reachedProduct'])->name('product.reached');
     Route::post('get/sub-categories', [ProductController::class, 'subCategory']);
     Route::post('get/mini-categories', [ProductController::class, 'miniCategory']);
@@ -142,7 +142,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('delete/product/download/{id}', [ProductController::class, 'deleteDownloadFile']);
     Route::post('update/product/download', [ProductController::class, 'updateDownloadFile']);
     Route::get('product/type', [ProductController::class, 'type'])->name('product.type');
-    Route::get('product/inhouse', [ProductController::class, 'inhouseProduct'])->name('product.inhouse.index');
     Route::get('product/inhouse/create', [ProductController::class, 'inhouseCreate'])->name('product.inhouse.create');
 
     Route::get('admin/product/color/{cc}/{pp}', [ProductController::class, 'nColorDelete'])->name('color.delete.n2');

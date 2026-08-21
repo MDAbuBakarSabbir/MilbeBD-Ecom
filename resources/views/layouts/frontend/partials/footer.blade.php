@@ -89,7 +89,41 @@
                                 <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-76">
                                     {{setting('footer_description')}}
                                 </li>
+								
                             </ul>
+						
+
+                    <ul style="margin-top: 0;" class="item-content  ic4">
+                        @if(!empty(setting('facebook')))
+                        <li class="s-l-i-3"><a href="{{setting('facebook')}}"><i style="background:#3b5997 ;"
+                                    class="icofont icofont-social-facebook"></i></a></li>
+                        @endif
+                        @if(!empty(setting('instagram')))
+                        <li class="s-l-i-3"><a href="{{setting('instagram')}}"><i style="background:#e24667 ;"
+                                    class="fab fa-instagram"></i></a></li>
+                        @endif
+                        @if(!empty(setting('messanger')))
+                        <li class="s-l-i-3"><a href="{{setting('messanger')}}"><i style="background:#3b5997 ;"
+                                    class="fab fa-facebook-messenger"></i></a></li>
+                        @endif
+                        @if(!empty(setting('youtube')))
+                        <li class="s-l-i-3"><a href="{{setting('youtube')}}"><i style="background:#ff0000 ;"
+                                    class="icofont icofont-youtube-play"></i></a></li>
+                        @endif
+
+                        @if(!empty(setting('whatsapp')))
+                        <li class="s-l-i-3"><a href="https://wa.me/{{setting('whatsapp')}}"><i style="background:#439665 ;"
+                                    class="icofont icofont-social-whatsapp"></i></a></li>
+                        @endif
+                        @if(!empty(setting('twitter')))
+                        <li class="s-l-i-3"><a href="{{setting('twitter')}}"><i style="background:#21a1f0 ;"
+                                    class="icofont icofont-social-twitter"></i></a></li>
+                        @endif
+                        @if(!empty(setting('linkedin')))
+                        <li class="s-l-i-3"><a href="{{setting('linkedin')}}"><i style="background:#21a1f0 ;"
+                                    class="icofont icofont-social-linkedin"></i></a></li>
+                        @endif
+                    </ul>
                         </div>
                     </div>
                     
@@ -181,9 +215,6 @@
                                 <li style="line-height: 22px;">{{setting('SITE_INFO_ADDRESS')}}</li>
                                 <li>Email: {{setting('SITE_INFO_SUPPORT_MAIL')}}</li>
                                 <li>Contact No: {{setting('SITE_INFO_PHONE')}}</li>
-                                <li><a style="font-weight: 700;border-radius: 5px;padding: 5px 15px;display: inline-block;background: var(--primary_color);color:var(--primary_bg_color_text);font-size: 16px;"
-                                        href="{{route('connection.live.chat')}}"
-                                        class="{{Request::is('connection') ? 'active':''}}"> Live Chat</a></li>
                             </ul>
                         </div>
                     </div>
@@ -196,43 +227,7 @@
                         display: none;
                     }
                 </style>
-                <li id="nav_menu-2" class="widget widget_nav_menu pt-3">
-                    <div class="title t4">
-                        <span>Get In Touch</span>
-                        <span class="footer-sub-icon"><i class="icofont icofont-simple-right"></i></span>
-                    </div>
 
-                    <ul style="margin-top: 0;" class="item-content  ic4">
-                        @if(!empty(setting('facebook')))
-                        <li class="s-l-i-3"><a href="{{setting('facebook')}}"><i style="background:#3b5997 ;"
-                                    class="icofont icofont-social-facebook"></i></a></li>
-                        @endif
-                        @if(!empty(setting('instagram')))
-                        <li class="s-l-i-3"><a href="{{setting('instagram')}}"><i style="background:#e24667 ;"
-                                    class="fab fa-instagram"></i></a></li>
-                        @endif
-                        @if(!empty(setting('messanger')))
-                        <li class="s-l-i-3"><a href="{{setting('messanger')}}"><i style="background:#3b5997 ;"
-                                    class="fab fa-facebook-messenger"></i></a></li>
-                        @endif
-                        @if(!empty(setting('youtube')))
-                        <li class="s-l-i-3"><a href="{{setting('youtube')}}"><i style="background:#ff0000 ;"
-                                    class="icofont icofont-youtube-play"></i></a></li>
-                        @endif
-
-                        @if(!empty(setting('whatsapp')))
-                        <li class="s-l-i-3"><a href="https://wa.me/{{setting('whatsapp')}}"><i style="background:#439665 ;"
-                                    class="icofont icofont-social-whatsapp"></i></a></li>
-                        @endif
-                        @if(!empty(setting('twitter')))
-                        <li class="s-l-i-3"><a href="{{setting('twitter')}}"><i style="background:#21a1f0 ;"
-                                    class="icofont icofont-social-twitter"></i></a></li>
-                        @endif
-                        @if(!empty(setting('linkedin')))
-                        <li class="s-l-i-3"><a href="{{setting('linkedin')}}"><i style="background:#21a1f0 ;"
-                                    class="icofont icofont-social-linkedin"></i></a></li>
-                        @endif
-                    </ul>
                     @if(setting('android_app'))
                     <div class="platform item-content  ic4" style="margin-top: 20px;">
                         <div class="title t1" style="margin-bottom: 8px !important">

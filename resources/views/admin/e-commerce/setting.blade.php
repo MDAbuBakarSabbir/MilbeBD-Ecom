@@ -92,7 +92,7 @@
                         <div class="card-header">Update Notice</div>
                         <div class="card-body">
                             <h5 class="card-title">We are allways for there for support.</h5>
-                            <p class="card-text">We are coming with new innovation @Finvasoft</p>
+                            <p class="card-text">We are coming with new innovation @Elite Design</p>
                         </div>
                     </div>
                 </div>
