@@ -463,4 +463,37 @@ class SubCategoryController extends Controller
         $mini_categories = extracategory::latest()->get();
         return view('admin.e-commerce.extra-category.index', compact('mini_categories'));
     }
+
+    public function subCategoryStatus($id)
+    {
+        $subCategory = SubCategory::find($id);
+        if ($subCategory) {
+            $subCategory->status = $subCategory->status == 1 ? 0 : 1;
+            $subCategory->save();
+            return response()->json(['success' => true, 'message' => 'Sub Category status updated successfully', 'status' => $subCategory->status]);
+        }
+        return response()->json(['success' => false, 'message' => 'Sub Category not found']);
+    }
+
+    public function miniCategoryStatus($id)
+    {
+        $mini = miniCategory::find($id);
+        if ($mini) {
+            $mini->status = $mini->status == 1 ? 0 : 1;
+            $mini->save();
+            return response()->json(['success' => true, 'message' => 'Mini Category status updated successfully', 'status' => $mini->status]);
+        }
+        return response()->json(['success' => false, 'message' => 'Mini Category not found']);
+    }
+
+    public function extraCategoryStatus($id)
+    {
+        $extra = extracategory::find($id);
+        if ($extra) {
+            $extra->status = $extra->status == 1 ? 0 : 1;
+            $extra->save();
+            return response()->json(['success' => true, 'message' => 'Extra Category status updated successfully', 'status' => $extra->status]);
+        }
+        return response()->json(['success' => false, 'message' => 'Extra Category not found']);
+    }
 }

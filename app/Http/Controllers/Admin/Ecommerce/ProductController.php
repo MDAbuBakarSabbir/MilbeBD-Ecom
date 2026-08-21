@@ -31,11 +31,48 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $products = Product::with('brand')->latest('id')->get();
-        $products = Product::with('brand')->latest('id')->paginate(10);
-        return view('admin.e-commerce.product.index', compact('products'));
+        $query = Product::with('brand')->latest('id');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('sku', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('status') && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('stock_status')) {
+            if ($request->stock_status === 'in_stock') {
+                $query->where('quantity', '>', 5);
+            } elseif ($request->stock_status === 'low_stock') {
+                $query->where('quantity', '>', 0)->where('quantity', '<=', 5);
+            } elseif ($request->stock_status === 'out_of_stock') {
+                $query->where('quantity', '<=', 0);
+            }
+        }
+
+        if ($request->filled('brand_id')) {
+            $query->where('brand_id', $request->brand_id);
+        }
+
+        $products = $query->paginate(20)->withQueryString();
+
+        $stats = [
+            'total'        => Product::count(),
+            'active'       => Product::where('status', 1)->count(),
+            'low_stock'    => Product::where('quantity', '>', 0)->where('quantity', '<=', 5)->count(),
+            'out_of_stock' => Product::where('quantity', '<=', 0)->count(),
+        ];
+
+        $brands = \App\Models\Brand::all();
+
+        return view('admin.e-commerce.product.index', compact('products', 'stats', 'brands'));
     }
     public function lowProduct(){
         $products=\App\Models\Product::where('quantity','<','6')->where('user_id',auth()->id())->get();

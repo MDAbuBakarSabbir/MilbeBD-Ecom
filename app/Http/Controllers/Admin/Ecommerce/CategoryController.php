@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\SubCategory;
 use App\Models\miniCategory;
+use App\Models\ExtraMiniCategory;
 use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,8 +22,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = DB::table('categories')->latest('id')->get();
-        return view('admin.e-commerce.category.index', compact('categories'));
+        $categories = Category::latest('id')->get();
+        $sub_categories = SubCategory::with('category')->latest('id')->get();
+        $mini_categories = miniCategory::with('subCategory')->latest('id')->get();
+        $extra_categories = ExtraMiniCategory::with('miniCategory')->latest('id')->get();
+        return view('admin.e-commerce.category.index', compact('categories', 'sub_categories', 'mini_categories', 'extra_categories'));
     }
 
     /**
@@ -206,6 +210,17 @@ class CategoryController extends Controller
             ]);
         }
 
+    }
+
+    public function status($id)
+    {
+        $category = Category::find($id);
+        if ($category) {
+            $category->status = $category->status == 1 ? 0 : 1;
+            $category->save();
+            return response()->json(['success' => true, 'message' => 'Status updated successfully', 'status' => $category->status]);
+        }
+        return response()->json(['success' => false, 'message' => 'Category not found']);
     }
     
 }

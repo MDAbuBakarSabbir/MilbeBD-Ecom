@@ -22,64 +22,234 @@ class OrderController extends Controller
      *
      * @return void
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::latest('id')->get();
-        return view('admin.e-commerce.order.index', compact('orders'));
+        $query = Order::with('orderDetails')->latest('id');
+
+        if ($request->filled('status') && $request->status !== 'all') {
+            if ($request->status === 'return') {
+                $query->whereIn('status', [6, 7, 8]);
+            } else {
+                $query->where('status', $request->status);
+            }
+        }
+
+        if ($request->filled('pay_status')) {
+            $query->where('pay_staus', $request->pay_status);
+        }
+
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        $orders = $query->get();
+
+        $counts = [
+            'all'        => Order::count(),
+            'pending'    => Order::where('status', 0)->count(),
+            'processing' => Order::where('status', 1)->count(),
+            'shipping'   => Order::where('status', 4)->count(),
+            'delivered'  => Order::where('status', 3)->count(),
+            'cancel'     => Order::where('status', 2)->count(),
+            'return'     => Order::whereIn('status', [6, 7, 8])->count(),
+        ];
+
+        return view('admin.e-commerce.order.index', compact('orders', 'counts'));
     }
-     public function comission()
+
+    /**
+     * Bulk update order status or delete
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function bulkStatusUpdate(Request $request)
+    {
+        $request->validate([
+            'order_ids' => 'required|array',
+            'order_ids.*' => 'exists:orders,id',
+            'status' => 'required|string',
+        ]);
+
+        $orderIds = $request->input('order_ids');
+        $status = $request->input('status');
+        $count = count($orderIds);
+
+        if ($status === 'pay_paid') {
+            Order::whereIn('id', $orderIds)->update([
+                'pay_staus' => 1,
+                'pay_date' => now()
+            ]);
+            notify()->success("{$count} orders marked as Paid successfully.", "Success");
+        } elseif ($status === 'pay_unpaid') {
+            Order::whereIn('id', $orderIds)->update([
+                'pay_staus' => 0,
+                'pay_date' => null
+            ]);
+            notify()->success("{$count} orders marked as Unpaid.", "Success");
+        } elseif ($status === 'delete') {
+            Order::whereIn('id', $orderIds)->delete();
+            notify()->success("{$count} orders deleted successfully.", "Success");
+        } else {
+            $statusCode = (int)$status;
+            Order::whereIn('id', $orderIds)->update(['status' => $statusCode]);
+
+            $statusLabels = [
+                0 => 'Pending',
+                1 => 'Approved / Processing',
+                2 => 'Cancelled',
+                3 => 'Delivered',
+                4 => 'Shipping / Packaging',
+                5 => 'Refunded',
+                6 => 'Return Requested',
+                7 => 'Returning',
+                8 => 'Returned',
+                9 => 'In Courier'
+            ];
+            $label = $statusLabels[$statusCode] ?? 'Updated';
+            notify()->success("{$count} orders status changed to {$label}.", "Success");
+        }
+
+        return back();
+    }
+
+    /**
+     * show incomplete / abandoned order list
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function incomplete()
+    {
+        $orders = Order::with('orderDetails')
+            ->where(function ($query) {
+                $query->where('cart_type', '1')
+                      ->orWhere('is_pre', 1)
+                      ->orWhere('status', 0);
+            })
+            ->latest('id')
+            ->get();
+
+        return view('admin.e-commerce.order.incomplete', compact('orders'));
+    }
+
+    public function comission()
     {
         $comissions = Commission::latest('id')->where('status','1')->get();
         return view('admin.e-commerce.order.comission', compact('comissions'));
     }
     
+    private function getOrderCounts()
+    {
+        return [
+            'all'        => Order::count(),
+            'pending'    => Order::where('status', 0)->count(),
+            'processing' => Order::where('status', 1)->count(),
+            'shipping'   => Order::where('status', 4)->count(),
+            'delivered'  => Order::where('status', 3)->count(),
+            'cancel'     => Order::where('status', 2)->count(),
+            'return'     => Order::whereIn('status', [6, 7, 8])->count(),
+        ];
+    }
+
     /**
      * show customer pending order list
      *
-     * @return void
+     * @return \Illuminate\Contracts\View\View
      */
     public function pending()
     {
-        $orders = Order::where('status', 0)->where('is_pre','0')->latest('id')->get();
-        return view('admin.e-commerce.order.pending', compact('orders'));
+        $orders = Order::with('orderDetails')->where('status', 0)->where('is_pre', '0')->latest('id')->get();
+        $counts = $this->getOrderCounts();
+        return view('admin.e-commerce.order.index', compact('orders', 'counts'));
     }
+
     public function pre()
     {
-        $orders = Order::where('status', 0)->where('is_pre','1')->latest('id')->get();
-        return view('admin.e-commerce.order.pending', compact('orders'));
+        $orders = Order::with('orderDetails')->where('is_pre', '1')->latest('id')->get();
+        $counts = $this->getOrderCounts();
+        return view('admin.e-commerce.order.index', compact('orders', 'counts'));
+    }
+
+    public function hold()
+    {
+        $orders = Order::with('orderDetails')->where('status', 0)->latest('id')->get();
+        $counts = $this->getOrderCounts();
+        return view('admin.e-commerce.order.index', compact('orders', 'counts'));
     }
     
     /**
-     * show customer processing order list
+     * show customer processing / approved order list
      *
-     * @return void
+     * @return \Illuminate\Contracts\View\View
      */
     public function processing()
     {
-        $orders = Order::where('status', 1)->latest('id')->get();
-        return view('admin.e-commerce.order.processing', compact('orders'));
+        $orders = Order::with('orderDetails')->where('status', 1)->latest('id')->get();
+        $counts = $this->getOrderCounts();
+        return view('admin.e-commerce.order.index', compact('orders', 'counts'));
+    }
+
+    /**
+     * show packaging order list
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function packaging()
+    {
+        $orders = Order::with('orderDetails')->where('status', 4)->latest('id')->get();
+        $counts = $this->getOrderCounts();
+        return view('admin.e-commerce.order.index', compact('orders', 'counts'));
+    }
+
+    /**
+     * show in courier order list
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function inCourier()
+    {
+        $orders = Order::with('orderDetails')->where('status', 9)->latest('id')->get();
+        $counts = $this->getOrderCounts();
+        return view('admin.e-commerce.order.index', compact('orders', 'counts'));
+    }
+
+    /**
+     * show customer delivered order list
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function delivered()
+    {
+        $orders = Order::with('orderDetails')->where('status', 3)->latest('id')->get();
+        $counts = $this->getOrderCounts();
+        return view('admin.e-commerce.order.index', compact('orders', 'counts'));
+    }
+
+    /**
+     * show return orders list
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function returnOrders()
+    {
+        $orders = Order::with('orderDetails')->whereIn('status', [6, 7, 8])->latest('id')->get();
+        $counts = $this->getOrderCounts();
+        return view('admin.e-commerce.order.index', compact('orders', 'counts'));
     }
     
     /**
      * show customer cancel order list
      *
-     * @return void
+     * @return \Illuminate\Contracts\View\View
      */
     public function cancel()
     {
-        $orders = Order::where('status', 2)->latest('id')->get();
-        return view('admin.e-commerce.order.cancel', compact('orders'));
-    }
-    
-    /**
-     * show customer delivered order list
-     *
-     * @return void
-     */
-    public function delivered()
-    {
-        $orders = Order::where('status', 3)->latest('id')->get();
-        return view('admin.e-commerce.order.delivered', compact('orders'));
+        $orders = Order::with('orderDetails')->where('status', 2)->latest('id')->get();
+        $counts = $this->getOrderCounts();
+        return view('admin.e-commerce.order.index', compact('orders', 'counts'));
     }
     
     /**

@@ -60,6 +60,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('dashboard', DashboardController::class)->name('dashboard');
 
+    Route::get('category/status/{id}', [CategoryController::class, 'status'])->name('category.status');
+    Route::get('sub-category/status/{id}', [SubCategoryController::class, 'subCategoryStatus'])->name('sub-category.status');
+    Route::get('mini-categories/status/{id}', [SubCategoryController::class, 'miniCategoryStatus'])->name('minicategory.status');
+    Route::get('extra-categories/status/{id}', [SubCategoryController::class, 'extraCategoryStatus'])->name('extracategory.status');
     Route::resource('category', CategoryController::class);
     Route::resource('collection', CollectionController::class);
     Route::resource('sub-category', SubCategoryController::class);
@@ -187,17 +191,24 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::group(['as' => 'order.', 'prefix' => 'order'], function () {
         Route::get('/', [OrderController::class, 'index'])->name('index');
         Route::get('invoice/{id}', [OrderController::class, 'invoice'])->name('invoice');
-        Route::get('pending', [OrderController::class, 'pending'])->name('pending');
+        Route::get('incomplete', [OrderController::class, 'incomplete'])->name('incomplete');
         Route::get('pre', [OrderController::class, 'pre'])->name('pre');
+        Route::get('pending', [OrderController::class, 'pending'])->name('pending');
+        Route::get('hold', [OrderController::class, 'hold'])->name('hold');
+        Route::get('approved', [OrderController::class, 'processing'])->name('approved');
         Route::get('processing', [OrderController::class, 'processing'])->name('processing');
-        Route::get('cancel', [OrderController::class, 'cancel'])->name('cancel');
+        Route::get('packaging', [OrderController::class, 'packaging'])->name('packaging');
+        Route::get('in-courier', [OrderController::class, 'inCourier'])->name('inCourier');
         Route::get('delivered', [OrderController::class, 'delivered'])->name('delivered');
+        Route::get('return', [OrderController::class, 'returnOrders'])->name('return');
+        Route::get('cancel', [OrderController::class, 'cancel'])->name('cancel');
         Route::get('partials', [OrderController::class, 'partials'])->name('partials');
         Route::get('partials/status/{id}/{st}', [OrderController::class, 'partialStatus'])->name('partials.status');
         Route::get('print/{id}', [OrderController::class, 'print'])->name('print');
         Route::get('{id}', [OrderController::class, 'show'])->name('show');
 
         Route::get('order/delete/{did}', [OrderController::class, 'delete'])->name('delete');
+        Route::post('bulk-status-update', [OrderController::class, 'bulkStatusUpdate'])->name('bulkStatusUpdate');
 
         Route::get('status/processing/{id}', [OrderController::class, 'statusProcessing'])->name('status.processing');
         Route::get('status/cancel/{id}', [OrderController::class, 'statusCancel'])->name('status.cancel');

@@ -284,13 +284,17 @@
 
         .bulk-selected-bar {
             display: none;
-            background: #1e293b;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
             color: #ffffff;
-            padding: 8px 16px;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
             align-items: center;
             justify-content: space-between;
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.18);
+            border: 1px solid #334155;
+            flex-wrap: wrap;
+            gap: 12px;
         }
     </style>
 @endpush
@@ -397,17 +401,55 @@
         </div>
     </div>
 
-    <!-- Bulk Selected Bar -->
+    <!-- Bulk Selected & Action Bar -->
     <div class="bulk-selected-bar" id="bulkBar">
-        <div>
-            <i class="fas fa-check-circle text-success mr-2"></i>
-            <span id="bulkCount" class="font-weight-bold">0</span> Orders Selected
+        <div class="d-flex align-items-center flex-wrap" style="gap: 14px;">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-check-circle text-success mr-2 fa-lg"></i>
+                <span id="bulkCount" class="badge badge-success px-2 py-1 mr-1" style="font-size: 13px;">0</span>
+                <span class="font-weight-bold">Selected</span>
+            </div>
+
+            <!-- Bulk Status Update Form -->
+            <form id="bulkActionForm" action="{{ route('admin.order.bulkStatusUpdate') }}" method="POST" class="d-inline-flex align-items-center flex-wrap" style="gap: 8px; margin: 0;">
+                @csrf
+                <div id="bulkHiddenIds"></div>
+                <div class="input-group input-group-sm" style="width: auto;">
+                    <select name="status" id="bulkStatusSelect" class="form-control form-control-sm" required style="border-radius: 6px 0 0 6px; font-weight: 600; min-width: 180px; background-color: #ffffff; color: #1e293b;">
+                        <option value="" disabled selected>-- Change Status To --</option>
+                        <optgroup label="Order Status">
+                            <option value="0">⏳ Mark as Pending</option>
+                            <option value="1">✔️ Mark as Approved / Confirm</option>
+                            <option value="4">📦 Mark as Packaging / Shipping</option>
+                            <option value="9">🚚 Mark as In Courier</option>
+                            <option value="3">👍 Mark as Delivered</option>
+                            <option value="2">❌ Mark as Cancelled</option>
+                            <option value="8">🔄 Mark as Returned</option>
+                        </optgroup>
+                        <optgroup label="Payment Status">
+                            <option value="pay_paid">💵 Mark as Paid</option>
+                            <option value="pay_unpaid">⚠️ Mark as Unpaid / Due</option>
+                        </optgroup>
+                        <optgroup label="Danger Zone">
+                            <option value="delete" class="text-danger">🗑️ Delete Selected Orders</option>
+                        </optgroup>
+                    </select>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-sm btn-success font-weight-bold px-3" id="bulkApplyBtn" style="border-radius: 0 6px 6px 0;">
+                            <i class="fas fa-check mr-1"></i> Update
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div>
-            <button type="button" class="btn btn-sm btn-outline-light mr-2" id="bulkPrintBtn">
+
+        <div class="d-flex align-items-center flex-wrap" style="gap: 8px;">
+            <button type="button" class="btn btn-sm btn-outline-light font-weight-bold" id="bulkPrintBtn">
                 <i class="fas fa-print mr-1"></i> Print Selected
             </button>
-            <button type="button" class="btn btn-sm btn-danger" id="deselectBtn">Deselect</button>
+            <button type="button" class="btn btn-sm btn-light border font-weight-bold text-dark" id="deselectBtn">
+                <i class="fas fa-times mr-1"></i> Deselect
+            </button>
         </div>
     </div>
 </div>
@@ -742,6 +784,43 @@
                     $('#bulkBar').hide();
                 }
             }
+
+            // Handle bulk form submit
+            $('#bulkActionForm').on('submit', function (e) {
+                var selected = $('.order-check:checked');
+                var statusVal = $('#bulkStatusSelect').val();
+
+                if (selected.length === 0) {
+                    e.preventDefault();
+                    alert('Please select at least one order from the list.');
+                    return false;
+                }
+
+                if (!statusVal) {
+                    e.preventDefault();
+                    alert('Please choose a status or action to apply.');
+                    return false;
+                }
+
+                if (statusVal === 'delete') {
+                    if (!confirm('Are you sure you want to permanently delete ' + selected.length + ' selected orders?')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                } else {
+                    if (!confirm('Are you sure you want to apply this action to ' + selected.length + ' selected orders?')) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
+                // Populate hidden input tags
+                var hiddenContainer = $('#bulkHiddenIds');
+                hiddenContainer.empty();
+                selected.each(function () {
+                    hiddenContainer.append('<input type="hidden" name="order_ids[]" value="' + $(this).val() + '">');
+                });
+            });
 
             $('#bulkPrintBtn').on('click', function () {
                 $('.order-check:checked').each(function () {
