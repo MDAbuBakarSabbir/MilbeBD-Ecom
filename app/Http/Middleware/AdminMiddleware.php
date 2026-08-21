@@ -21,7 +21,7 @@ class AdminMiddleware
             return $next($request);
             
         } else {
-            return Redirect()->route('login');
+            return redirect()->route('admin.login');
         }
     }
 }

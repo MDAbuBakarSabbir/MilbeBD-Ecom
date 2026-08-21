@@ -126,37 +126,46 @@ class LoginController extends Controller
         }
     }
 
-     public function superLogin(Request $request)
+    public function superLogin(Request $request)
     {   
-        $input = $request->all();
-  
         $this->validate($request, [
-            'username' => 'required',
-            'password' => 'required',
+            'username' => 'required|string',
+            'password' => 'required|string',
         ]);
-  
-          if(auth()->attempt(array('phone' => $input['username'], 'password' => $input['password'])))
-        {
+
+        $loginInput = $request->input('username');
+        $password   = $request->input('password');
+
+        // Check if input is email, phone, or username
+        $fieldType = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : (is_numeric($loginInput) ? 'phone' : 'username');
+
+        // Try primary field attempt
+        if (Auth::attempt([$fieldType => $loginInput, 'password' => $password])) {
             if (Auth::user()->role_id == 1) {
-                 return Redirect::to('/admin/dashboard');
-            }else{
-                notify()->error("Phone and password not match.", "Wrong");
-            return back();
+                return redirect()->intended('/admin/dashboard');
+            } else {
+                Auth::logout();
+                notify()->error("Access denied. Admin access only.", "Unauthorized");
+                return back()->withInput($request->only('username'));
             }
-            
-        }elseif(auth()->attempt(array('username' => $input['username'], 'password' => $input['password'])))
-        {
-            if (Auth::user()->role_id == 1) {
-                return Redirect::to('/admin/dashboard');
-            }else{
-                  notify()->error("Username and password not match.", "Wrong");
-            return back();
-            }
-            
-        }else{
-            notify()->error("Username and password not match.", "Wrong");
-           return back();
         }
+
+        // Fallback: try other candidate fields
+        $fields = ['email', 'phone', 'username'];
+        foreach ($fields as $field) {
+            if ($field !== $fieldType && Auth::attempt([$field => $loginInput, 'password' => $password])) {
+                if (Auth::user()->role_id == 1) {
+                    return redirect()->intended('/admin/dashboard');
+                } else {
+                    Auth::logout();
+                    notify()->error("Access denied. Admin access only.", "Unauthorized");
+                    return back()->withInput($request->only('username'));
+                }
+            }
+        }
+
+        notify()->error("Username/Email/Phone or password does not match.", "Wrong Credentials");
+        return back()->withInput($request->only('username'));
     }
       public function superLoginconfirm(Request $request)
     {   
